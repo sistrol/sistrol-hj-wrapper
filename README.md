@@ -1,5 +1,5 @@
-![Sistrol - Edison Next](https://www.sistrol.com/wp-content/uploads/2021/04/LOGO-SISTROL-Y-EDISON-NEXT_negativo-e1652274617530.png)
-
+![Sistrol - Edison Next](https://www.sistrol.com/wp-content/uploads/2021/04/LOGO-SISTROL-Y-EDISON-NEXT_negativo-e1652274617530.png)  
+  
 <h1>sistrol-haystack-java sample code</h1>
 
 <!-- TOC -->
@@ -19,7 +19,12 @@
 - [8. Gestión de errores](#8-gestión-de-errores)
   - [8.1. Errores HTTP](#81-errores-http)
   - [8.2. Errores Haystack](#82-errores-haystack)
-- [9. Recursos](#9-recursos)
+- [9. Resolución de problemas](#9-resolución-de-problemas)
+  - [9.1. Instalación de librería haystack-java](#91-instalación-de-librería-haystack-java)
+    - [9.1.1. Alternativa 1: activar repositorio JCenter](#911-alternativa-1-activar-repositorio-jcenter)
+    - [9.1.2. Alternativa 2: descargar la librería e instalarla en nuestro repositorio local](#912-alternativa-2-descargar-la-librería-e-instalarla-en-nuestro-repositorio-local)
+    - [9.1.3. Alternativa 3: trabajar con el proyecto haystack-java original en GitHub](#913-alternativa-3-trabajar-con-el-proyecto-haystack-java-original-en-github)
+- [10. Recursos](#10-recursos)
 <!-- TOC -->
 
 
@@ -46,6 +51,7 @@ Los módulos se pueden descargar desde [https://stackhub.org/package/nHaystack](
 Una vez instalados los módulos:
 * abrir la paleta _NHaystack_ en el workbench y arrastrar el componente **Haystack Service** a la carpeta _/Services_ de la station.
 * abrir la hoja de propiedades del componente _Haystack Service_ y habilitar el servlet integrado que implementa el API REST Haystack.
+* abrir la vista _NHaystack Service View_ e inicializar la caché en _Initialize_
 
 Hay información más detallada en el [repositorio del módulo NHaystack en GitHub](https://github.com/ci-richard-mcelhinney/nhaystack)
 
@@ -57,7 +63,7 @@ Al instalar en Niagara el servicio _NHaystack Service_, los componentes de tipo 
 El módulo permite asignar diferentes etiquetas a los distintos componentes de la station, creando una o varias jerarquías de componentes, árboles de navegación, etc. Pero eso queda fuera de las funciones que se pretenden mostrar con este ejemplo.
 
 # 5. El API REST Haystack
-* El API REST Haystack define un conjunto de operaciones cuya documentación se puede consultar en este [enlace](https://project-haystack.org/doc/docHaystack/Ops). En este ejemplo únicamente se cubren las operaciones (Read)[https://project-haystack.org/doc/docHaystack/Ops#read] y (HisRead)[https://project-haystack.org/doc/docHaystack/Ops#hisRead] 
+* El API REST Haystack define un conjunto de operaciones cuya documentación se puede consultar en este [enlace](https://project-haystack.org/doc/docHaystack/Ops). En este ejemplo únicamente se cubren las operaciones [Read](https://project-haystack.org/doc/docHaystack/Ops#read) y [HisRead](https://project-haystack.org/doc/docHaystack/Ops#hisRead)  
 
 # 6. Operación **read**
 ## 6.1. Cuerpo de la petición
@@ -271,7 +277,40 @@ Ejemplo de respuesta de error Haystack:
 
 No se ha incorporado al ejemplo código que ilustre la gestión de errores.
 
-# 9. Recursos
+
+# 9. Resolución de problemas
+## 9.1. Instalación de librería haystack-java
+### 9.1.1. Alternativa 1: activar repositorio JCenter
+Actualmente la librería `org.project-haystack:haystack-java:3.0.7` se encuentra en el repo [JCenter](https://jcenter.bintray.com/), por lo que una posible solución para acceder a esta librería es añadiendo el repo en nuestro fichero `pom.xml`
+```xml
+<project>
+  [...]
+  <repositories>
+    <repository>
+      <id>jcenter</id>
+      <name>jcenter</name>
+      <url>https://jcenter.bintray.com</url>
+    </repository>
+  </repositories>
+  [...]
+</project>
+```
+
+### 9.1.2. Alternativa 2: descargar la librería e instalarla en nuestro repositorio local
+En caso de no tener acceso al repo _JCenter_, podemos utilizar la librería que está en este proyecto en [resources/libs/haystack-java-3.0.7.jar](resources/libs/haystack-java-3.0.7.jar) e instalarla en nuestro repo local con el comando:
+```powershell
+mvn install:install-file -Dfile=resources/lib/project-haystack-3.0.7.jar -DgroupId=org.projecthaystack \
+        -DartifactId=haystack-java -Dversion=3.0.7 -Dpackaging=jar
+```
+(se asume que el comando se ejecuta desde la carpeta raíz del proyecto)
+
+### 9.1.3. Alternativa 3: trabajar con el proyecto haystack-java original en GitHub
+Si queremos tener los últimos cambios que hagan los creadores de la librería podemos clonar el [proyecto desde GitHub](https://github.com/skyfoundry/haystack-java) y seguir las instrucciones que proporcionan para construir e instalar la librería en nuestro repo local.
+Hay que tener en cuenta que los creadores de la librería _haystack-java_ utilizan Gradle en vez de Maven, aunque el sistema de repo de librerías es el mismo.
+
+Dado que sólo utilizamos la autenticación, las alternativas 1 y 2 se recomiendan por ser más sencillas.
+
+# 10. Recursos
 * Niagara module for Project Haystack: [https://github.com/ci-richard-mcelhinney/nhaystack](https://github.com/ci-richard-mcelhinney/nhaystack)
 * Project Haystack website: [https://project-haystack.org/](https://project-haystack.org/)
   * Área de descargas: [https://project-haystack.org/download](https://project-haystack.org/download)
